@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriBond</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgriBond</h1>
+        </div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="cart">
+            <button id="cart-btn">Cart (<span id="cart-count">0</span>)</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>.........</h2>
+        <a href="#products" class="cta">Shop Now</a>
+    </section>
+
+    <section class="products-section" id="products">
+        <h2>Our Products</h2>
+        <div class="products-grid">
+            <!-- Add products dynamically -->
+            <div class="product-card" data-name="Fresh Apples" data-price="5">
+                <img src="images/apple.jpg" alt="Fresh Apples">
+                <h3>Fresh Apples</h3>
+                <p>$5 per kg</p>
+                <div class="quantity-controls">
+                    <button class="decrease-quantity">-</button>
+                    <span class="quantity">1</span>
+                    <button class="increase-quantity">+</button>
+                </div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Organic Carrots" data-price="3">
+                <img src="images/carrots.jpg" alt="Organic Carrots">
+                <h3>Organic Carrots</h3>
+                <p>$3 per kg</p>
+                <div class="quantity-controls">
+                    <button class="decrease-quantity">-</button>
+                    <span class="quantity">1</span>
+                    <button class="increase-quantity">+</button>
+                </div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card" data-name="Fresh Milk" data-price="2">
+                <img src="images/milk.jpg" alt="Fresh Milk">
+                <h3>Fresh Milk</h3>
+                <p>$2 per liter</p>
+                <div class="quantity-controls">
+                    <button class="decrease-quantity">-</button>
+                    <span class="quantity">1</span>
+                    <button class="increase-quantity">+</button>
+                </div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <!-- Add more products here -->
+        </div>
+    </section>
+    <div class="cart">
+        <button id="cart-btn">Cart (<span id="cart-count">0</span>)</button>
+        <a href="cart.html" id="view-cart-link" target="_blank">View Cart in New Tab</a>
+    </div>
+    
+
+    <section class="cart-section" id="cart" style="display: none;">
+        <h2>Your Cart</h2>
+        <ul id="cart-items">
+            <li>No items in the cart.</li>
+        </ul>
+        <p><strong>Subtotal:</strong> $<span id="cart-subtotal">0</span></p>
+        <p><strong>Tax (10%):</strong> $<span id="cart-tax">0</span></p>
+        <p><strong>Delivery Charge:</strong> $<span id="delivery-charge">5</span></p>
+        <p><strong>Total:</strong> $<span id="cart-total">0</span></p>
+        <button id="checkout-btn">Proceed to Checkout</button>
+    </section>
+
+    <section class="checkout-section" id="checkout" style="display: none;">
+        <h2>Checkout</h2>
+        <form id="checkout-form">
+            <label for="address">Delivery Address:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label for="payment-method">Payment Method:</label>
+            <select id="payment-method" name="payment-method" required>
+                <option value="credit-card">Credit Card</option>
+                <option value="debit-card">Debit Card</option>
+                <option value="upi">UPI</option>
+                <option value="cod">Cash on Delivery</option>
+            </select>
+
+            <button type="submit">Confirm Order</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; Team Hacktivist. All rights reserved by Kishor Mandal And Maithali Sharan Tiwari</p>
+    </footer>
+</body>
+</html>
