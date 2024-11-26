@@ -1,56 +1,72 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const cartBtn = document.getElementById("cart-btn");
-    const cartSection = document.getElementById("cart");
-    const checkoutSection = document.getElementById("checkout");
+let Items = [];
 
-    // Importing cart operations from cart.js
-    import { addToCart, updateCartDisplay } from "./cart.js";
+// Function to add items to the cart
+function addToCart(name, price) {
+    const index = Items.findIndex(item => item.name === name);
+    if (index !== -1) {
+        Items[index].quantity += 1;
+    } else {
+        const item = {
+            name: name,
+            price: price,
+            quantity: 1
+        };
+        Items.push(item);
+    }
+    updateCartDisplay();
+}
 
-    document.querySelectorAll(".add-to-cart").forEach((button) => {
-        button.addEventListener("click", (e) => {
-            const productCard = e.target.closest(".product-card");
-            const name = productCard.dataset.name;
-            const price = parseFloat(productCard.dataset.price);
-            const quantity = parseInt(productCard.querySelector(".quantity").textContent);
+// Function to delete an item from the cart
+function deleteFromCart(index) {
+    Items.splice(index, 1);
+    updateCartDisplay();
+}
 
-            addToCart({ name, price, quantity }); // Add item to cart
-            updateCartDisplay(); // Update cart display
-        });
+// Function to update item quantity
+function updateQuantity(index, quantity) {
+    quantity = parseInt(quantity, 10); // Ensure the quantity is an integer
+
+    // Validate quantity to ensure it doesn't go below 1
+    if (isNaN(quantity) || quantity < 1) {
+        alert("Quantity must be at least 1.");
+        return;
+    }
+    Items[index].quantity = quantity;
+    updateCartDisplay();
+}
+
+// Function to handle checkout
+function checkout() {
+    let totalPrice = 0;
+    Items.forEach(item => {
+        totalPrice += item.price * item.quantity;
     });
+    alert(`Total price: Rs ${totalPrice.toFixed(2)}`);
+}
 
-    const quantityButtons = document.querySelectorAll(".quantity-controls");
-    quantityButtons.forEach((control) => {
-        const quantity = control.querySelector(".quantity");
-        const increase = control.querySelector(".increase-quantity");
-        const decrease = control.querySelector(".decrease-quantity");
+// Function to update cart display
+function updateCartDisplay() {
+    const cartElement = document.getElementById('cart-items');
+    cartElement.innerHTML = '';
 
-        increase.addEventListener("click", () => {
-            quantity.textContent = parseInt(quantity.textContent) + 1;
-        });
+    Items.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'cart-item';
 
-        decrease.addEventListener("click", () => {
-            if (parseInt(quantity.textContent) > 1) {
-                quantity.textContent = parseInt(quantity.textContent) - 1;
-            }
-        });
+        li.innerHTML = `
+            <span>${item.name} - Rs ${item.price.toFixed(2)} x</span>
+            <div class="quantity">
+                <button onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                <input 
+                    type="number" 
+                    value="${item.quantity}" 
+                    min="1" 
+                    onchange="updateQuantity(${index}, this.value)">
+                <button onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+            </div>
+            <button onclick="deleteFromCart(${index})">Delete</button>
+        `;
+
+        cartElement.appendChild(li);
     });
-
-    cartBtn.addEventListener("click", () => {
-        cartSection.style.display = cartSection.style.display === "none" ? "block" : "none";
-    });
-
-    const checkoutBtn = document.getElementById("checkout-btn");
-    checkoutBtn.addEventListener("click", () => {
-        cartSection.style.display = "none";
-        checkoutSection.style.display = "block";
-    });
-
-    const checkoutForm = document.getElementById("checkout-form");
-    checkoutForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        alert("Order confirmed! Thank you for shopping with us.");
-        localStorage.removeItem("cart"); // Clear cart after checkout
-        updateCartDisplay(); // Refresh cart display
-        checkoutSection.style.display = "none";
-    });
-});
+}
